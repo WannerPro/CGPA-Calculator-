@@ -1,27 +1,37 @@
-# My Name is Wangoda Francis
-# Registration number is 24/U/11855/PS
+# Author: Wangoda Francis
+# Registration number: 24/U/11855/PS
 
-# Getting student details
+# ===== Student Information Input =====
+# Get student's personal details
 student_name = input("Enter your name: ")
 student_number = input("Enter your student number: ")
 
-# creating lists for student marks and credit units
-student_marks = []
-credit_units = []
+# Initialize empty lists to store course information
+student_marks = []    # Will store marks for each course
+credit_units = []     # Will store credit units for each course
 
-# Getting student marks
+# ===== Course Marks Input =====
+# Loop to get marks for 4 courses
 for i in range(1, 5):
     marks = int(input(f"Enter marks for course {i}: "))
     student_marks.append(marks)
 
-# Getting the credit units of the students
+# ===== Credit Units Input =====
+# Loop to get credit units for 4 courses
 for i in range(1, 5):
     units = int(input(f"Enter credit unit for course {i}: "))
     credit_units.append(units)
 
 
-# Function to convert marks into grades
+# ===== Grade Conversion Function =====
 def convert_marks_to_grades(student_marks):
+    """
+    Converts numerical marks to letter grades
+    Args:
+        student_marks (int): Numerical marks (0-100)
+    Returns:
+        str: Letter grade (A, B, C, D, E, or F)
+    """
     if student_marks >= 90:
         return "A"
     elif student_marks >= 80:
@@ -36,42 +46,54 @@ def convert_marks_to_grades(student_marks):
         return "F"
 
 
-# Calculating the CGPA
+# ===== CGPA Calculation Function =====
 def calculate_cgpa(student_marks, credit_units):
-    # Dictionary for assigning grade points to each grade
+    """
+    Calculates the CGPA based on marks and credit units
+    Args:
+        student_marks (list): List of marks for each course
+        credit_units (list): List of credit units for each course
+    Returns:
+        float: Calculated CGPA
+    """
+    # Define grade points for each letter grade
     grade_points = {
-        'A': 5,
-        'B': 4,
-        'C': 3,
-        'D': 2,
-        'E': 1,
-        'F': 0,
+        'A': 5,  # 90-100
+        'B': 4,  # 80-89
+        'C': 3,  # 70-79
+        'D': 2,  # 60-69
+        'E': 1,  # 50-59
+        'F': 0,  # Below 50
     }
-    total_grade_points = 0
-    total_credit_units = 0
+    
+    # Initialize accumulators
+    total_grade_points = 0    # Sum of (grade points × credit units)
+    total_credit_units = 0    # Sum of all credit units
 
-    # loop through the marks and corresponding credit units
+    # Calculate weighted grade points for each course
     for i in range(len(student_marks)):
         mark = student_marks[i]
         credit_unit = credit_units[i]
 
-        # convert the marks to grades and Convert the grades to grade points
+        # Convert marks to grade, then to grade points
         grade = convert_marks_to_grades(mark)
         grade_point = grade_points[grade]
 
-        # accumulating the credit units and grade points
-        total_grade_points = total_grade_points + (grade_point * credit_unit)
-        total_credit_units = total_credit_units + credit_unit
+        # Accumulate weighted grade points and credit units
+        total_grade_points += (grade_point * credit_unit)
+        total_credit_units += credit_unit
 
-    # calculate the CGPA
+    # Prevent division by zero
     if total_credit_units == 0:
-        return 0      # this is to avoid the division by zero
+        return 0
 
+    # Calculate final CGPA
     cgpa = total_grade_points / total_credit_units
     return cgpa
 
 
-# Calculate and display the CGPA
+# ===== Main Execution =====
+# Calculate CGPA and display result
 cgpa = calculate_cgpa(student_marks, credit_units)
 print(f"The CGPA for {student_name} is: {cgpa: .2f}")
 
